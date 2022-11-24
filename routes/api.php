@@ -33,7 +33,7 @@ Route::get('/products/{id}', 'App\Http\Controllers\Api\ProductController@show');
 Route::get('/products/category/{id}', 'App\Http\Controllers\Api\ProductController@getProductsByCategory');
 Route::get('/products/search/{name}', 'App\Http\Controllers\Api\ProductController@searchProducts');
 
-Route::post('/cart', 'App\Http\Controllers\Api\CartController@create');
+Route::post('/cart/new', 'App\Http\Controllers\Api\CartController@create');
 Route::get('/cart', 'App\Http\Controllers\Api\CartController@index');
 Route::get('/cart/{id}', 'App\Http\Controllers\Api\CartController@show');
 Route::put('/cart/{id}', 'App\Http\Controllers\Api\CartController@update');
