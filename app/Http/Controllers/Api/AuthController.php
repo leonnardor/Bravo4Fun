@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Http\Resources\UserResource;
 
 
 
@@ -42,6 +43,7 @@ class AuthController extends Controller
             return response()->json([
                 'status'  => true,
                 'message' => 'Usuario cadastrado com sucesso',
+                
                 //'token'   => $USUARIO->createToken("API TOKEN")->plainTextToken
             ], 200);
 
@@ -53,37 +55,23 @@ class AuthController extends Controller
         }
     }
 
-    public function loginUser(Request $request)
-    {
+    public function loginUser(){
         try {
-            $validateUser = Validator::make($request->all(), 
-            [         
-                'USUARIO_EMAIL' => 'required|email',
-                'USUARIO_SENHA' => 'required'
-            ]);
-
-            if($validateUser->fails()){
+            $credentials = request(['USUARIO_EMAIL', 'USUARIO_SENHA']);
+            $user = User::where('USUARIO_EMAIL', $credentials['USUARIO_EMAIL'])->first();
+            if (!$user || !Hash::check($credentials['USUARIO_SENHA'], $user->USUARIO_SENHA)) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Erro ao logar usuário - Campos obrigatórios não preenchidos',
-                    'errors' => $validateUser->errors()
-                ], 401);
-            }
-
-            if(!Auth::attempt($request->only(['USUARIO_EMAIL', 'USUARIO_SENHA']))){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Email ou senha incorretos ou não existem',
+                    'message' => 'Usuário ou senha incorretos',
                     
                 ], 401);
             }
 
-            $user = Usuario::where('USUARIO_EMAIL', $request->email)->first();
-
             return response()->json([
                 'status' => true,
-                'message' => 'Usuario logado com sucesso',
-             
+                'message' => 'Login realizado com sucesso',
+                'data' => UserResource::collection($user), 
+              //  'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
 
         } catch (\Throwable $th) {
@@ -94,43 +82,8 @@ class AuthController extends Controller
         }
     }
 
-    public function logoutUser(Request $request)
-    {
-        try {
-            $request->user()->tokens()->delete();
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Usuário deslogado com sucesso',
-            ], 200);
-
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
-        }
-    }
-
-    public function getUser(Request $request)
-    {
-        try {
-            $user = $request->user();
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Detalhes do Usuário: ',
-                'data' => $user
-            ], 200);
-
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
-        }
-    }
-
+   
 
 }
 

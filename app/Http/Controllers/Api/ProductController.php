@@ -28,8 +28,6 @@ class ProductController extends Controller
             'message' => 'Produto cadastrado com sucesso',
             'data' => ProductResource::collection($products)
         ], 200);
-
-
     }
 
     public function store(Request $request)
@@ -67,11 +65,23 @@ class ProductController extends Controller
     {
         $products = Products::where('PRODUTO_NOME', 'like', '%'.$search.'%')->get();
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'Resultado da busca por '.$search,
-            'data' => ProductResource::collection($products)
-        ], 200); 
+
+        if (count($products) > 0) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Resultados para a busca '.$search,
+                'data' => ProductResource::collection($products)
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Nenhum produto encontrado com o termo '.$search,
+            ], 404);
+        }
+
+
   
-}
+    }
+
+
 }

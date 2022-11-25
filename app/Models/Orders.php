@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use App\Models\Images;
+use App\Models\OrdersItens;
+use App\Models\Orders;
+use App\Models\OrdersStatus;
+
 
 
 
@@ -26,6 +30,19 @@ class Orders extends Model
 
 
     public $timestamps = false;
+
+   
+    public function ordersItens()
+    {
+        return $this->hasMany(OrdersItens::class, 'PEDIDO_ID'); 
+    }
+
+    // 
+    public function ordersStatus()
+    {
+        return $this->belongsTo(OrdersStatus::class, 'STATUS_DESC'); // relacionamento 1 para 1 com a tabela PEDIDO_STATUS
+
+    }
 
     
 }

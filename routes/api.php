@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\OrdersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +20,7 @@ use App\Http\Controllers\Api\CartController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 
 Route::post('/login', 'App\Http\Controllers\Api\AuthController@loginUser');
 Route::post('/register', 'App\Http\Controllers\Api\AuthController@createUser');
@@ -38,6 +38,16 @@ Route::get('/cart', 'App\Http\Controllers\Api\CartController@index');
 Route::get('/cart/{id}', 'App\Http\Controllers\Api\CartController@show');
 Route::put('/cart/{id}', 'App\Http\Controllers\Api\CartController@update');
 Route::delete('/cart/{id}', 'App\Http\Controllers\Api\CartController@destroy');
+
+// get my orders route 
+Route::get('/orders', 'App\Http\Controllers\Api\OrdersController@getMyOrders');
+
+
+
+// rota usuario autenticado na aplciação
+
+
+
 
 
 

@@ -96,24 +96,7 @@ class CartController extends Controller
         }
     }
 
-    public function clearCart()
-    {
-        try {
-            $cart = Cart::where('USUARIO_ID', auth()->user()->USUARIO_ID)->delete();
-            return response()->json([
-                'status' => 200,
-                'message' => 'Carrinho limpo com sucesso',
-                'data' => CartResource::collection($cart)
-            ], 200);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => 500,
-                'message' => 'Erro ao limpar carrinho',
-                'data' => $th
-            ], 500);
-        }
-    }
-
+   
     public function checkout()
     {
        try {

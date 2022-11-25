@@ -18,13 +18,17 @@ class OrdersStatus extends Model
     ];
 
     protected $primaryKey = 'STATUS_ID';
-    protected $table = 'STATUS_PEDIDO';
+    protected $table = 'PEDIDO_STATUS';
     
     public $timestamps = false;
 
+   
     public function orders()
     {
         return $this->hasMany(Orders::class, 'STATUS_ID');
     }
+
+    
+
 
 }
