@@ -25,8 +25,12 @@ class OrdersStatus extends Model
    
     public function orders()
     {
-        return $this->hasMany(Orders::class, 'STATUS_ID');
+        return $this->hasMany(Orders::class, 'STATUS_DESC'); // relacionamento 1 para 1 com a tabela PEDIDO_STATUS
     }
+
+    
+
+
 
     
 

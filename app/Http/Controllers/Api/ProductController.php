@@ -56,7 +56,7 @@ class ProductController extends Controller
         $products = Products::where('CATEGORIA_ID', $id)->get();
         return response()->json([
             'status' => 200,
-            'message' => 'Produtos listados com sucesso',
+            'message' => 'Produtos da Categoria '.$id.' listados com sucesso',
             'data' => ProductResource::collection($products)
         ], 200);
     }
@@ -78,10 +78,5 @@ class ProductController extends Controller
                 'message' => 'Nenhum produto encontrado com o termo '.$search,
             ], 404);
         }
-
-
-  
     }
-
-
 }

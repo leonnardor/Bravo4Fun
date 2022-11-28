@@ -39,12 +39,18 @@ Route::get('/cart/{id}', 'App\Http\Controllers\Api\CartController@show');
 Route::put('/cart/{id}', 'App\Http\Controllers\Api\CartController@update');
 Route::delete('/cart/{id}', 'App\Http\Controllers\Api\CartController@destroy');
 
-// get my orders route 
 Route::get('/orders', 'App\Http\Controllers\Api\OrdersController@getMyOrders');
+Route::post('/orders/add', 'App\Http\Controllers\Api\OrdersController@addItensToOrder');
+Route::put('/orders/{id}', 'App\Http\Controllers\Api\OrdersController@updateOrderStatus');
+// get order by id
 
 
 
-// rota usuario autenticado na aplciação
+// usuario autenticado
+
+
+Route::get('/user', 'App\Http\Controllers\Api\AuthController@show');
+
 
 
 

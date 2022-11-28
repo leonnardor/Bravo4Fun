@@ -8,6 +8,18 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
-   //Buscar usuario autenticado na aplicação
+   // get user by id authenticated in login route 
+
+   public function show($id)
+   {
+       $user = User::where('USUARIO_ID', $id)->get();
+       return response()->json([
+           'status' => 200,
+           'message' => 'Usuário listado com sucesso',
+           'data' => UserResource::collection($user)
+       ], 200);
+   }
+
+   
    
 }
