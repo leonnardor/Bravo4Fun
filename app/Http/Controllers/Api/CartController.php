@@ -43,4 +43,23 @@ class CartController extends Controller
     }
 
 
+    public function store(Request $request)
+    {
+        try {
+            $cart = Cart::create($request->all());
+            return response()->json([
+                'status' => 200,
+                'message' => 'Carrinho criado com sucesso',
+                'data' => $cart
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Erro ao criar carrinho',
+                'data' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
 }

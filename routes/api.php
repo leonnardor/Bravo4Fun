@@ -22,31 +22,26 @@ use App\Http\Controllers\OrdersController;
 
 
 
-Route::post('/login', 'App\Http\Controllers\Api\AuthController@loginUser');
-Route::post('/register', 'App\Http\Controllers\Api\AuthController@createUser');
+Route::post('/login', 'App\Http\Controllers\Api\AuthController@loginUser'); // Rota para login
+Route::post('/register', 'App\Http\Controllers\Api\AuthController@createUser'); // Rota para cadastro
+ 
+Route::get('/categories', 'App\Http\Controllers\Api\CategoryController@index'); // Rota para listar categorias
+route::get('/categories/{id}', 'App\Http\Controllers\Api\CategoryController@show'); // Rota para listar categoria por id
 
-Route::get('/categories', 'App\Http\Controllers\Api\CategoryController@index');
-route::get('/categories/{id}', 'App\Http\Controllers\Api\CategoryController@show');
+Route::get('/products', 'App\Http\Controllers\Api\ProductController@index'); // Rota para listar produtos
+Route::get('/products/{id}', 'App\Http\Controllers\Api\ProductController@show'); // Rota para listar produto por id
+Route::get('/products/category/{id}', 'App\Http\Controllers\Api\ProductController@getProductsByCategory'); // Rota para listar produtos por categoria 
+Route::get('/products/search/{name}', 'App\Http\Controllers\Api\ProductController@searchProducts'); // Rota para buscar produtos por nome
 
-Route::get('/products', 'App\Http\Controllers\Api\ProductController@index');
-Route::get('/products/{id}', 'App\Http\Controllers\Api\ProductController@show');
-Route::get('/products/category/{id}', 'App\Http\Controllers\Api\ProductController@getProductsByCategory');
-Route::get('/products/search/{name}', 'App\Http\Controllers\Api\ProductController@searchProducts');
-
-Route::post('/cart/new', 'App\Http\Controllers\Api\CartController@create');
-Route::get('/cart', 'App\Http\Controllers\Api\CartController@index');
-Route::get('/cart/{id}', 'App\Http\Controllers\Api\CartController@show');
-Route::put('/cart/{id}', 'App\Http\Controllers\Api\CartController@update');
-Route::delete('/cart/{id}', 'App\Http\Controllers\Api\CartController@destroy');
-
-Route::get('/orders', 'App\Http\Controllers\Api\OrdersController@getMyOrders');
-Route::post('/orders/add', 'App\Http\Controllers\Api\OrdersController@addItensToOrder');
-Route::put('/orders/{id}', 'App\Http\Controllers\Api\OrdersController@updateOrderStatus');
-// get order by id
+Route::get('/cart/{id}', 'App\Http\Controllers\Api\CartController@show'); // Rota para listar carrinho por id
+Route::post('/cart', 'App\Http\Controllers\Api\CartController@store'); // Rota para criar carrinho
+Route::delete('/cart/{id}', 'App\Http\Controllers\Api\CartController@destroy'); // Rota para deletar carrinho
 
 
-
-// usuario autenticado
+Route::get('/orders', 'App\Http\Controllers\Api\OrdersController@getMyOrders'); // Rota para listar pedidos
+Route::post('/orders/new', 'App\Http\Controllers\Api\OrdersController@createOrder'); // Rota para criar pedido
+// ROTA PRA FINALIZAR PEDIDO
+Route::post('/orders/finish', 'App\Http\Controllers\Api\OrdersController@finishOrder'); // Rota para finalizar pedido
 
 
 Route::get('/user', 'App\Http\Controllers\Api\AuthController@show');

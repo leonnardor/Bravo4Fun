@@ -59,105 +59,74 @@ class OrdersController extends Controller
         }
     }
 
-    public function addItensToOrder(Request $request)
-    {
-        try {
-            $order = Orders::where('USUARIO_ID', 25)->get();
-            $orderItens = new OrdersItens();
-            $orderItens->PEDIDO_ID = $order[0]->PEDIDO_ID;
-            $orderItens->PRODUTO_ID = $request->PRODUTO_ID;
-            $orderItens->save();
 
-            return response()->json([
-                'status' => 200,
-                'message' => 'Item adicionado ao pedido com sucesso',
-                'data' => [
-                    'Pedido: ' => $order,
-                    'Itens do Pedido:' => $orderItens
-                ]
-            ], 200);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => 500,
-                'message' => 'Erro ao adicionar item ao pedido ' ,
-                'error' => $th,
-                'data' => []
-            ], 500);
-        }
-    }
+   public function createOrder(Request $request)
+   {
+       try {
+           $order = Orders::create([
+               'USUARIO_ID' => 25,
+               'STATUS_ID' => 1,
+               'PEDIDO_DATA' => date('Y-m-d H:i:s')
+           ]);
 
-    public function createOrder(Request $request)
-    {
-        try {
-            $order = new Orders(); 
-            $order->USUARIO_ID = 25;
-            $order->STATUS_DESC = 'Aguardando Pagamento';
-            $order->save();
+           $orderItens = OrdersItens::create([
+               'PEDIDO_ID' => $order->PEDIDO_ID,
+               'PRODUTO_ID' => $request->PRODUTO_ID,
+               'ITEM_QTD' => $request->ITEM_QTD,
 
-              
-            $orderItens = new OrdersItens();
-            $orderItens->PEDIDO_ID = $order->PEDIDO_ID;
-            $orderItens->PRODUTO_ID = $request->PRODUTO_ID;
-            $orderItens->save();
+                'ITEM_PRECO' => $request->ITEM_PRECO
 
+           ]);
 
-            $orderStatus = new OrdersStatus();
-            $orderStatus->PEDIDO_ID = $order->PEDIDO_ID;
-            $orderStatus->STATUS_DESC = $order->STATUS_DESC;
-            $orderStatus->save();
+           return response()->json([
+               'status' => 200,
+               'message' => 'Pedido criado com sucesso',
+               'data' => [
+                   'Pedido: ' => $order,
+                   'Itens do Pedido:' => $orderItens
 
-            return response()->json([
-                'status' => 200,
-                'message' => 'Pedido criado com sucesso',
-                'data' => [
-                    'Pedido: ' => $order,
-                    'Itens do Pedido:' => $orderItens,
-                    'Status do Pedido:' => $orderStatus
-                ]
-            ], 200);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => 500,
-                'message' => 'Erro ao criar pedido '.$th,
-                'data' => []
-            ], 500);
-        }
-    }
+               ]
+           ], 200);
+       } catch (\Throwable $th) {
+           return response()->json([
+               'status' => 500,
+               'message' => 'Erro ao criar pedido '.$th,
+               'data' => []
+           ], 500);
+       }
+   }
+ 
 
-
-    public function updateOrderStatus(Request $request)
-    {
-        try {
-            $order = Orders::where('USUARIO_ID', 25)->get();
-            $orderStatus = OrdersStatus::where('PEDIDO_ID', $order[0]->PEDIDO_ID)->get();
-
-            $orderStatus[0]->STATUS_DESC = $request->STATUS_DESC;
-            $orderStatus[0]->save();
-
-            $orderItens = OrdersItens::where('PEDIDO_ID', $order[0]->PEDIDO_ID)->get();
-            $orderItens[0]->delete();
-
-            return response()->json([
+   public function finishOrder(){
+         try {
+              $order = Orders::where('PEDIDO_ID', 1)->first();
+    
+              if(!$order){
+                return response()->json([
+                     'status' => 200,
+                     'message' => 'Pedido não encontrado',
+                     'data' => []
+                ], 200);
+              }
+    
+              $order->update([
+                'STATUS_ID' => 2,
+                'PEDIDO_DATA' => date('Y-m-d H:i:s')
+              ]);
+    
+              return response()->json([
                 'status' => 200,
                 'message' => 'Compra finalizada com sucesso',
                 'data' => [
-                    'Pedido: ' => $order,
-                    'Status do Pedido:' => $orderStatus
+                     'Pedido: ' => $order
                 ]
-            ], 200);
-        } catch (\Throwable $th) {
-            return response()->json([
+              ], 200);
+         } catch (\Throwable $th) {
+              return response()->json([
                 'status' => 500,
-                'message' => 'Erro ao finalizar a compra '.$th,
+                'message' => 'Erro ao finalizar pedido '.$th,
                 'data' => []
-            ], 500);
-        }
-    }
-
-
-    
-
-   
-
-    
+              ], 500);
+         }
+   }
 }
