@@ -25,38 +25,14 @@ class OrdersController extends Controller
             } 
 
             $ordersItens = OrdersItens::where('PEDIDO_ID', $orders[0]->PEDIDO_ID)->get();
-            $ordersStatus = OrdersStatus::where('STATUS_ID', $orders[0]->STATUS_ID)->get() ;
-            $products = Products::where('PRODUTO_ID', $ordersItens[0]->PRODUTO_ID)->get();
-            $productsName = [];
-            $productsPrice = [];
-            $productsQuantity = [];
-            foreach($ordersItens as $item){
-                $productsName[] = $item->products->PRODUTO_NOME;
-                $productsPrice[] = $item->products->PRODUTO_PRECO;
-                $productsQuantity[] = $item->ITEM_QTD;
-            }
-
-
-            $totalPrice = 0;
-            $totalPriceWithDiscount = 0;
-            foreach($products as $item){
-                $totalPrice += $item->PRODUTO_PRECO;
-                $totalPriceWithDiscount += $item->PRODUTO_DESCONTO;
-            }
-
-            $totalPrice = number_format($totalPrice, 2, '.', '');
-            $totalPriceWithDiscount = number_format($totalPriceWithDiscount, 2, '.', '');
+            $ordersStatus = OrdersStatus::where('STATUS_ID', $orders[0]->STATUS_ID)->get();
 
             return response()->json([
                 'status' => 200,
                 'message' => 'Pedidos listados com sucesso',
                 'data' => [
                     'Pedidos: ' => $orders,
-                    'Itens do Pedido:' => $ordersItens,
                     'Status do Pedido:' => $ordersStatus,
-                    'Produtos:' => $products,
-                    'Valor:' => 'R$'.$totalPrice,
-                    'Valor final com desconto:' => 'R$'.$totalPriceWithDiscount
                 ]
             ], 200);
         } catch (\Throwable $th) {
@@ -68,6 +44,64 @@ class OrdersController extends Controller
         }
     }
 
+
+
+   public function getOrder($id){
+         try {
+              $orders = Orders::where('PEDIDO_ID', $id)->get();
+              
+    
+              if($orders->isEmpty()){
+                return response()->json([
+                     'status' => 200,
+                     'message' => 'Você não possui pedidos',
+                     'data' => []
+                ], 200);
+              } 
+    
+              $ordersItens = OrdersItens::where('PEDIDO_ID', $orders[0]->PEDIDO_ID)->get();
+              $ordersStatus = OrdersStatus::where('STATUS_ID', $orders[0]->STATUS_ID)->get() ;
+              $products = Products::where('PRODUTO_ID', $ordersItens[0]->PRODUTO_ID)->get();
+              $productsName = [];
+              $productsPrice = [];
+              $productsQuantity = [];
+              foreach($ordersItens as $item){
+                $productsName[] = $item->products->PRODUTO_NOME;
+                $productsPrice[] = $item->products->PRODUTO_PRECO;
+                $productsQuantity[] = $item->ITEM_QTD;
+              }
+    
+              $totalOrder = 0;
+              $totalProducts = 0;
+              foreach($ordersItens as $item){
+                $totalOrder += $item->ITEM_QTD * $item->products->PRODUTO_PRECO;
+                $totalOrderWithDiscunt = $totalOrder - $orders[0]->PRODUTO_DESCONTO;
+    
+                $desconto = $orders[0]->PRODUTO_DESCONTO;
+                $totalProducts += $item->ITEM_QTD;
+              }
+    
+              return response()->json([
+                'status' => 200,
+                'message' => 'Pedidos listados com sucesso',
+                'data' => [
+                     'Pedidos: ' => $orders,
+                     'Itens do Pedido:' => $ordersItens,
+                     'Status do Pedido:' => $ordersStatus,
+                     'Valor:' => 'R$'.$totalOrder,
+    
+                     'Valor final com desconto:' => 'R$'.$desconto,
+                     'Quantidade de produtos:' => $totalProducts,
+                ]
+              ], 200);
+         } catch (\Throwable $th) {
+              return response()->json([
+                'status' => 500,
+                'message' => 'Erro ao listar pedidos '.$th,
+                'data' => []
+              ], 500);
+         }
+   }
 
    public function createOrder(Request $request)
    {

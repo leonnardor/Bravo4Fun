@@ -22,6 +22,7 @@ class Orders extends Model
         'USUARIO_ID',
         'STATUS_ID',
         'PEDIDO_DATA',
+        'STATUS_DESC',
     ];
 
     protected $primaryKey = 'PEDIDO_ID';
@@ -38,11 +39,7 @@ class Orders extends Model
     }
 
     // 
-    public function ordersStatus()
-    {
-        return $this->belongsTo(OrdersStatus::class, 'STATUS_DESC'); // relacionamento 1 para 1 com a tabela PEDIDO_STATUS
-
-    }
+  
 
     
 }

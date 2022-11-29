@@ -33,10 +33,7 @@ class OrdersItens extends Model
         return $this->belongsTo(Products::class, 'PRODUTO_ID');
     }
 
-    public function itemPrice()
-    {
-        return $this->products->PRODUTO_PRECO;
-    }
+   
 
     
 }

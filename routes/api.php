@@ -40,6 +40,7 @@ Route::delete('/cart/{id}', 'App\Http\Controllers\Api\CartController@destroy'); 
 
 Route::get('/orders', 'App\Http\Controllers\Api\OrdersController@getMyOrders'); // Rota para listar pedidos
 Route::post('/orders/new', 'App\Http\Controllers\Api\OrdersController@createOrder'); // Rota para criar pedido
+Route::get('/orders/{id}', 'App\Http\Controllers\Api\OrdersController@getOrder'); // Rota para listar pedido por id
 // ROTA PRA FINALIZAR PEDIDO
 Route::post('/orders/finish', 'App\Http\Controllers\Api\OrdersController@finishOrder'); // Rota para finalizar pedido
 
