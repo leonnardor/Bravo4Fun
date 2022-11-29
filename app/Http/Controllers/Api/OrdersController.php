@@ -25,8 +25,17 @@ class OrdersController extends Controller
             } 
 
             $ordersItens = OrdersItens::where('PEDIDO_ID', $orders[0]->PEDIDO_ID)->get();
-            $ordersStatus = OrdersStatus::where('STATUS_DESC', $orders[0]->STATUS_DESC)->get();
+            $ordersStatus = OrdersStatus::where('STATUS_ID', $orders[0]->STATUS_ID)->get() ;
             $products = Products::where('PRODUTO_ID', $ordersItens[0]->PRODUTO_ID)->get();
+            $productsName = [];
+            $productsPrice = [];
+            $productsQuantity = [];
+            foreach($ordersItens as $item){
+                $productsName[] = $item->products->PRODUTO_NOME;
+                $productsPrice[] = $item->products->PRODUTO_PRECO;
+                $productsQuantity[] = $item->ITEM_QTD;
+            }
+
 
             $totalPrice = 0;
             $totalPriceWithDiscount = 0;
