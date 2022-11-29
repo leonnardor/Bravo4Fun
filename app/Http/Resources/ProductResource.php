@@ -12,11 +12,11 @@ class ProductResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->PRODUTO_ID,
-            'name' => $this->PRODUTO_NOME,
-            'description' => $this->PRODUTO_DESC,
-            'price' => $this->PRODUTO_PRECO,
-            'imagem' => $this->images ? $this->images->map(function($image){ 
+            'PRODUTO_ID' => $this->PRODUTO_ID,
+            'PRODUTO_NOME' => $this->PRODUTO_NOME,
+            'PRODUTO_DESC' => $this->PRODUTO_DESC,
+            'PRODUTO_PRECO' => $this->PRODUTO_PRECO,
+            'PRODUTO_IMAGEM' => $this->images ? $this->images->map(function($image){ 
                 return $image->IMAGEM_URL;
             }) : null,
             'image_order' => $this->images ? $this->images->map(function($image){
