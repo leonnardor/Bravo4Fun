@@ -28,10 +28,15 @@ class CartController extends Controller
     {
        try {
             $cart = Cart::where('USUARIO_ID', $id)->get();
+            $total = 0;
+            foreach ($cart as $item) {
+                $total += $item->PRODUTO_PRECO;
+            }
             return response()->json([
                 'status' => 200,
                 'message' => 'Carrinho listado com sucesso',
-                'data' => CartResource::collection($cart)
+                'data' => CartResource::collection($cart),
+                'Total do Pedido' => $total
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -60,6 +65,8 @@ class CartController extends Controller
             ], 500);
         }
     }
+
+    
 
 
 }

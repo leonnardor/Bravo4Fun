@@ -16,7 +16,9 @@ class Cart extends Model
          'USUARIO_ID',
          'PRODUTO_ID',
          'ITEM_QTD',
+         'PRODUTO_PRECO',
         
+
          
     ];
 

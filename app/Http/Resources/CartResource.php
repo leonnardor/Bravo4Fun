@@ -17,9 +17,10 @@ class CartResource extends JsonResource
        
         return [
             'PRODUTO_ID' => $this->PRODUTO_ID,
-            'PRODUTO_NOME' => $this->PRODUTO_NOME,
             'ITEM_QTD' => $this->ITEM_QTD,
             'PRODUTO_NOME' => $this->products->PRODUTO_NOME,
+            'PRODUTO_PRECO' => $this->products->PRODUTO_PRECO,
+            'PRODUTO_PRECO_TOTAL' => $this->products->PRODUTO_PRECO * $this->ITEM_QTD,
         ];
         return parent::toArray($request);
     }
