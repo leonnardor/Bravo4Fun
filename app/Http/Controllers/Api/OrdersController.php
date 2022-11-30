@@ -9,6 +9,8 @@ use App\Models\OrdersItens;
 use App\Models\OrdersStatus;
 use App\Models\Products;
 
+use App\Http\Resources\OrderResource;
+
 class OrdersController extends Controller
 {
     public function getMyOrders()
@@ -31,7 +33,7 @@ class OrdersController extends Controller
                 'status' => 200,
                 'message' => 'Pedidos listados com sucesso',
                 'data' => [
-                    'Pedidos: ' => $orders,
+                    'Pedidos: ' => OrderResource::collection($orders),
                     'Status do Pedido:' => $ordersStatus,
                 ]
             ], 200);
