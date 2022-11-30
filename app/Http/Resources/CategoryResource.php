@@ -20,5 +20,6 @@ class CategoryResource extends JsonResource
             'description' => $this->CATEGORIA_DESC,
             'active' => $this->CATEGORIA_ATIVO,
         ];
+        return parent::toArray($request);
     }
 }

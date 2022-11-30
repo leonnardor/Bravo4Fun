@@ -45,7 +45,8 @@ Route::get('/orders/{id}', 'App\Http\Controllers\Api\OrdersController@getOrder')
 Route::post('/orders/finish', 'App\Http\Controllers\Api\OrdersController@finishOrder'); // Rota para finalizar pedido(só vai fazer um update no status do pedido)
 
 
-Route::get('/user', 'App\Http\Controllers\Api\AuthController@show');
+Route::get('/user/{id}', 'App\Http\Controllers\Api\UserController@show'); // Rota para listar usuario por id
+
 
 
 

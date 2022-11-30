@@ -14,13 +14,13 @@ class CartResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
-
+       
         return [
-            'id' => $this->PRODUTO_ID,
-            'name' => $this->PRODUTO_NOME,
-            'quantity' => $this->ITEM_QTD,
-            'nome' => $this->products->PRODUTO_NOME,
+            'PRODUTO_ID' => $this->PRODUTO_ID,
+            'PRODUTO_NOME' => $this->PRODUTO_NOME,
+            'ITEM_QTD' => $this->ITEM_QTD,
+            'PRODUTO_NOME' => $this->products->PRODUTO_NOME,
         ];
+        return parent::toArray($request);
     }
 }
