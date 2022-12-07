@@ -28,6 +28,7 @@ class OrdersController extends Controller
             $ordersStatus = OrdersStatus::where('STATUS_ID', $orders[0]->STATUS_ID)->get();
 
             return response()->json([
+        
                 'status' => 200,
                 'message' => 'Pedidos listados com sucesso',
                 'data' => [

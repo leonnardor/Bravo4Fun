@@ -17,6 +17,7 @@ class Cart extends Model
          'PRODUTO_ID',
          'ITEM_QTD',
          'PRODUTO_PRECO',
+         'PRODUTO_IMAGEM',
         
 
          

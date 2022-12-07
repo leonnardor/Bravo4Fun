@@ -21,6 +21,7 @@ class CartResource extends JsonResource
             'PRODUTO_NOME' => $this->products->PRODUTO_NOME,
             'PRODUTO_PRECO' => $this->products->PRODUTO_PRECO,
             'PRODUTO_PRECO_TOTAL' => $this->products->PRODUTO_PRECO * $this->ITEM_QTD,
+            'PRODUTO_IMAGEM' => $this->products->images->first()->PRODUTO_IMAGEM,
         ];
         return parent::toArray($request);
     }
